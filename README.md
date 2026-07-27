@@ -18,86 +18,153 @@ An **AirTag-inspired Bluetooth tracker** built with **SwiftUI**, following **MVV
 
 ---
 
-## ✨ Features
+# ✨ Features
 
-- 📡 Simulated Bluetooth device discovery
+- 📡 Discover nearby Bluetooth Low Energy (BLE) peripherals using **CoreBluetooth**
+- 🧪 Mock BLE scanner for development and UI testing
+- 📱 Scan, connect, and disconnect Bluetooth devices
 - 🏷️ Rename tracked devices
-- 🔋 Battery level monitoring
-- 📶 Signal strength (RSSI) visualization
-- 🔗 Connect and disconnect devices
+- 🔋 Display battery level (simulated for unsupported devices)
+- 📶 Monitor signal strength (RSSI)
+- 💾 Save discovered devices locally using **SwiftData**
 - 🗑️ Delete saved trackers
-- 💾 Local persistence using SwiftData
 - 🎨 Modern SwiftUI interface
+- ⚡ Async/Await powered asynchronous operations
 - 🧩 Modular MVVM architecture
 - 🔄 Repository Pattern for clean separation of concerns
 
 ---
 
-## 🏗️ Architecture
+# 🏗️ Architecture
 
-SwiftTag follows the **MVVM (Model-View-ViewModel)** architecture with a **Repository Pattern** to keep the UI independent of the data source.
+SwiftTag follows the **MVVM (Model-View-ViewModel)** architecture combined with the **Repository Pattern** to keep the UI independent from Bluetooth and persistence layers.
+
+```
+┌──────────────┐
+│    Views     │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│ ViewModels   │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│ Repository   │
+└──────┬───────┘
+       │
+ ┌─────┴───────────────┐
+ │                     │
+ ▼                     ▼
+CoreBluetooth     Mock BLE Service
+       │
+       ▼
+   SwiftData
+```
 
 ### View
-Responsible for rendering the user interface and handling user interactions.
+
+Responsible for rendering the UI and handling user interactions.
 
 ### ViewModel
-Contains presentation logic and exposes data to the views using Swift's Observation framework.
+
+Contains presentation logic, manages application state, and exposes data to the UI using Swift's Observation framework.
 
 ### Repository
-Acts as the single source of truth and abstracts the underlying data and Bluetooth services.
+
+Acts as the single source of truth by abstracting Bluetooth operations and local persistence.
+
+### CoreBluetooth Service
+
+Discovers and communicates with real Bluetooth Low Energy peripherals using Apple's **CoreBluetooth** framework.
 
 ### Mock BLE Service
-Simulates nearby Bluetooth devices during development, making the app testable without physical hardware.
+
+Simulates nearby BLE devices, making it possible to develop and test the application without requiring physical Bluetooth hardware.
 
 ### SwiftData
-Persists discovered devices locally.
+
+Persists discovered devices locally so trackers remain available across app launches.
 
 ---
 
-## 🚀 Tech Stack
+# 🚀 Tech Stack
 
 - Swift
 - SwiftUI
+- CoreBluetooth
 - SwiftData
 - MVVM Architecture
 - Repository Pattern
 - Observation Framework
 - Async/Await
 - NavigationStack
-  
 
 ---
 
-## 🤔 Why a Mock BLE Scanner?
+# 🤔 Why Both Real & Mock BLE?
 
-Developing Bluetooth applications can be challenging because physical peripherals may not always be available.
+Developing Bluetooth applications isn't always convenient because physical BLE peripherals may not be available during development or testing.
 
-To make development faster and the application easier to test, SwiftTag abstracts Bluetooth functionality behind a repository and currently uses a **Mock BLE Scanner** that generates sample devices.
+SwiftTag solves this by abstracting Bluetooth functionality behind a repository and providing two interchangeable implementations:
 
-Because of this architecture, replacing the mock implementation with Apple's **CoreBluetooth** framework requires minimal changes to the rest of the application.
+- **CoreBluetooth Service** for discovering and interacting with real BLE peripherals.
+- **Mock BLE Service** for generating sample devices during development.
+
+Because both implementations share the same interface, the rest of the application remains unchanged regardless of which scanner is being used. This keeps the codebase clean, modular, and highly testable.
 
 ---
 
-## 🔮 Future Improvements
+# 📂 Project Structure
 
-- Real CoreBluetooth integration
+```
+SwiftTag
+│
+├── Models
+├── Views
+├── ViewModels
+├── Repository
+├── Services
+│   ├── CoreBluetooth
+│   └── MockBLE
+├── Persistence
+├── Utilities
+└── Resources
+```
+
+---
+
+# 🔮 Future Improvements
+
 - Background Bluetooth scanning
-- Device categories
+- Automatic reconnection to known peripherals
+- Device categories and favorites
 - Device location history
 - Cloud synchronization
 - Find My–style precision finding
-- Dark Mode support
-- Unit and UI tests
+- Unit Tests
+- UI Tests
 
 ---
 
-## 👩‍💻 Author
+# 👩‍💻 Author
 
 **Palak Satti**
 
-iOS Developer
+**iOS Developer**
+
+- Swift
+- SwiftUI
+- UIKit
+- CoreBluetooth
+- MVVM
+- IoT Applications
+
 ---
 
-## ⭐ If you found this project interesting
+# ⭐ Support
 
-If you like this project, consider giving it a ⭐ on GitHub.
+If you found this project useful or interesting, consider giving it a ⭐ on GitHub.
+
+Contributions, suggestions, and feedback are always welcome!
